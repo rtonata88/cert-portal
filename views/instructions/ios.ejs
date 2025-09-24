@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNAM - iOS Certificate Installation</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container instructions-page">
+        <header>
+            <h1>🔐 UNAM iOS Certificate</h1>
+            <a href="/" class="back-link">← Back to Portal</a>
+        </header>
+
+        <section class="instructions">
+            <div class="alert alert-warning">
+                <strong>Important:</strong> You must access this page from Safari on your iOS device for the installation to work properly.
+            </div>
+
+            <div class="step">
+                <h2>Step 1: Download UNAM Certificate</h2>
+                <p>On your iOS device, tap the button below to download the UNAM certificate:</p>
+                <a href="/download-certificate?device=ios"
+                   class="btn btn-download">
+                    📥 Download UNAM Certificate
+                </a>
+                <p class="note">A popup will appear asking if you want to allow downloads. Tap <strong>Allow</strong>.</p>
+            </div>
+
+            <div class="step">
+                <h2>Step 2: Open Downloaded Profile</h2>
+                <ol>
+                    <li>After download, you'll see a notification "Profile Downloaded"</li>
+                    <li>Tap <strong>Close</strong> on the notification</li>
+                    <li>Open the <strong>Settings</strong> app</li>
+                    <li>You should see <strong>Profile Downloaded</strong> near the top</li>
+                    <li>Tap on <strong>Profile Downloaded</strong></li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <h2>Step 3: Install Profile</h2>
+                <ol>
+                    <li>Review the certificate information</li>
+                    <li>Tap <strong>Install</strong> in the top right corner</li>
+                    <li>Enter your device passcode when prompted</li>
+                    <li>You may see a warning - tap <strong>Install</strong> again</li>
+                    <li>Tap <strong>Install</strong> once more in the popup</li>
+                    <li>Tap <strong>Done</strong> when installation completes</li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <h2>Step 4: Enable Full Trust for Certificate</h2>
+                <ol>
+                    <li>Go to <strong>Settings</strong> → <strong>General</strong> → <strong>About</strong></li>
+                    <li>Scroll down and tap <strong>Certificate Trust Settings</strong></li>
+                    <li>Under "Enable full trust for root certificates"</li>
+                    <li>Toggle the switch for your certificate to <strong>ON</strong></li>
+                    <li>Tap <strong>Continue</strong> in the warning popup</li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <h2>Step 5: Verify Installation</h2>
+                <ol>
+                    <li>Go to <strong>Settings</strong> → <strong>General</strong> → <strong>VPN & Device Management</strong></li>
+                    <li>Under "Configuration Profiles" you should see your certificate</li>
+                    <li>Tap on it to view details and verify it's installed</li>
+                    <li>Close and reopen Safari to apply changes</li>
+                </ol>
+            </div>
+
+            <div class="alert alert-info">
+                <h3>For iOS 15 and Later</h3>
+                <p>The location of some settings may have changed:</p>
+                <ul>
+                    <li>Profiles are in: <strong>Settings</strong> → <strong>General</strong> → <strong>VPN & Device Management</strong></li>
+                    <li>Trust settings are in: <strong>Settings</strong> → <strong>General</strong> → <strong>About</strong> → <strong>Certificate Trust Settings</strong></li>
+                </ul>
+            </div>
+
+            <div class="troubleshooting">
+                <h3>Troubleshooting</h3>
+                <ul>
+                    <li><strong>No "Profile Downloaded" in Settings:</strong> Wait a few seconds, or restart Settings app</li>
+                    <li><strong>Can't Find Certificate Trust Settings:</strong> Go to Settings → General → About, then scroll to bottom</li>
+                    <li><strong>Certificate Not Working:</strong> Make sure you enabled full trust in Step 4</li>
+                    <li><strong>Download Not Working:</strong> Ensure you're using Safari, not Chrome or other browsers</li>
+                    <li><strong>Still Having Issues:</strong> Try restarting your device after installation</li>
+                </ul>
+            </div>
+        </section>
+
+        <% if (typeof redirectUrl !== 'undefined' && redirectUrl) { %>
+            <div class="completion-section">
+                <h3>After Installation</h3>
+                <p>Once you've completed the certificate installation, tap below to continue:</p>
+                <a href="<%= redirectUrl %>" class="btn btn-primary">
+                    🌐 Continue to Website
+                </a>
+                <a href="/redirect" class="btn btn-secondary">
+                    🏠 Go to Company Site
+                </a>
+            </div>
+        <% } %>
+
+        <footer>
+            <p>&copy; 2024 UNAM</p>
+        </footer>
+    </div>
+</body>
+</html>

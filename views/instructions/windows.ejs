@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNAM - Windows Certificate Installation</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container instructions-page">
+        <header>
+            <h1>🔐 UNAM Windows Certificate</h1>
+            <a href="/" class="back-link">← Back to Portal</a>
+        </header>
+
+        <section class="instructions">
+            <div class="step">
+                <h2>Step 1: Download UNAM Certificate</h2>
+                <p>First, download the UNAM certificate file:</p>
+                <a href="/download-certificate?device=windows"
+                   class="btn btn-download">
+                    📥 Download UNAM Certificate
+                </a>
+            </div>
+
+            <div class="step">
+                <h2>Step 2: Open Certificate Manager</h2>
+                <ol>
+                    <li>Press <kbd>Win</kbd> + <kbd>R</kbd> to open the Run dialog</li>
+                    <li>Type <code>certmgr.msc</code> and press Enter</li>
+                    <li>The Certificate Manager window will open</li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <h2>Step 3: Import Certificate</h2>
+                <ol>
+                    <li>In Certificate Manager, expand <strong>Trusted Root Certification Authorities</strong></li>
+                    <li>Right-click on <strong>Certificates</strong></li>
+                    <li>Select <strong>All Tasks</strong> → <strong>Import</strong></li>
+                    <li>Click <strong>Next</strong> in the Certificate Import Wizard</li>
+                    <li>Click <strong>Browse</strong> and select the downloaded certificate file</li>
+                    <li>Click <strong>Next</strong></li>
+                    <li>Ensure <strong>Trusted Root Certification Authorities</strong> is selected</li>
+                    <li>Click <strong>Next</strong> then <strong>Finish</strong></li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <h2>Step 4: Verify Installation</h2>
+                <ol>
+                    <li>In Certificate Manager, navigate to <strong>Trusted Root Certification Authorities</strong> → <strong>Certificates</strong></li>
+                    <li>Look for your certificate in the list</li>
+                    <li>Double-click to view certificate details</li>
+                    <li>Verify the certificate information matches expected values</li>
+                </ol>
+            </div>
+
+            <div class="alert alert-info">
+                <h3>Alternative Method: Command Line</h3>
+                <p>You can also install via PowerShell (Run as Administrator):</p>
+                <pre><code>Import-Certificate -FilePath "path\to\ca-certificate.crt" -CertStoreLocation Cert:\LocalMachine\Root</code></pre>
+            </div>
+
+            <div class="troubleshooting">
+                <h3>Troubleshooting</h3>
+                <ul>
+                    <li><strong>Permission Denied:</strong> Make sure you're running as Administrator</li>
+                    <li><strong>Certificate Not Trusted:</strong> Restart your browser after installation</li>
+                    <li><strong>Still Having Issues?</strong> Try restarting your computer after installation</li>
+                </ul>
+            </div>
+        </section>
+
+        <% if (typeof redirectUrl !== 'undefined' && redirectUrl) { %>
+            <div class="completion-section">
+                <h3>After Installation</h3>
+                <p>Once you've completed the certificate installation, click below to continue:</p>
+                <a href="<%= redirectUrl %>" class="btn btn-primary">
+                    🌐 Continue to Website
+                </a>
+                <a href="/redirect" class="btn btn-secondary">
+                    🏠 Go to Company Site
+                </a>
+            </div>
+        <% } %>
+
+        <footer>
+            <p>&copy; 2024 UNAM</p>
+        </footer>
+    </div>
+</body>
+</html>

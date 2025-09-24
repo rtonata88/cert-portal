@@ -1,0 +1,651 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: #f5f5f5;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+header {
+    background: #DA291C;
+    color: white;
+    padding: 40px 30px;
+    text-align: center;
+    position: relative;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+.back-link {
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    opacity: 0.9;
+    transition: opacity 0.3s;
+}
+
+.back-link:hover {
+    opacity: 1;
+}
+
+.alert {
+    margin: 20px 30px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.alert-info {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.alert-warning {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.registration-form,
+.user-dashboard {
+    padding: 40px 30px;
+}
+
+.registration-form h2,
+.user-dashboard h2 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.8em;
+}
+
+.registration-form p {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #DA291C;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.btn-primary {
+    background: #DA291C;
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background: #c02419;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-download {
+    background: #28a745;
+    color: white;
+    margin: 10px 5px;
+}
+
+.btn-download:hover {
+    background: #218838;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #6d6f71;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #5a5c5e;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.stat-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.stat-card h3 {
+    color: #666;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.stat-card p {
+    color: #333;
+    font-size: 1.1em;
+}
+
+.stat-number {
+    font-size: 2em;
+    font-weight: bold;
+    color: #DA291C;
+}
+
+.download-section,
+.instructions-section {
+    margin: 40px 0;
+    padding: 30px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.download-section h3,
+.instructions-section h3 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.download-buttons {
+    margin-top: 20px;
+}
+
+.device-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.device-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    color: #333;
+    border: 2px solid #e0e0e0;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.device-card:hover {
+    border-color: #DA291C;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(218, 41, 28, 0.3);
+}
+
+.device-icon {
+    font-size: 2em;
+}
+
+.register-another {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Instructions Page Styles */
+.instructions-page .instructions {
+    padding: 30px;
+}
+
+.step {
+    margin-bottom: 40px;
+    padding: 25px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #DA291C;
+}
+
+.step h2 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+
+.step h3 {
+    color: #555;
+    margin: 20px 0 10px 0;
+}
+
+.step h4 {
+    color: #666;
+    margin: 15px 0 10px 0;
+}
+
+.step ol,
+.step ul {
+    margin-left: 20px;
+    color: #555;
+}
+
+.step li {
+    margin-bottom: 10px;
+    line-height: 1.8;
+}
+
+.step code {
+    background: #e9ecef;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+}
+
+.step pre {
+    background: #2d3748;
+    color: #e2e8f0;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 15px 0;
+}
+
+.step pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+}
+
+kbd {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 0.9em;
+    font-family: 'Courier New', monospace;
+    box-shadow: 0 2px 0 #ccc;
+}
+
+.note {
+    font-style: italic;
+    color: #666;
+    margin-top: 10px;
+}
+
+.troubleshooting {
+    background: #fff3cd;
+    padding: 25px;
+    border-radius: 8px;
+    margin-top: 40px;
+}
+
+.troubleshooting h3 {
+    color: #856404;
+    margin-bottom: 15px;
+}
+
+.troubleshooting ul {
+    margin-left: 20px;
+    color: #856404;
+}
+
+.troubleshooting li {
+    margin-bottom: 10px;
+}
+
+.troubleshooting strong {
+    color: #721c24;
+}
+
+footer {
+    background: #f8f9fa;
+    padding: 20px;
+    text-align: center;
+    color: #666;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Captive Portal Styles */
+.captive-portal-content {
+    padding: 30px;
+}
+
+.security-notice {
+    background: #fff;
+    padding: 25px;
+    border-radius: 4px;
+    margin-bottom: 30px;
+    border: 1px solid #e0e0e0;
+    border-left: 4px solid #DA291C;
+}
+
+.security-notice h2 {
+    color: #DA291C;
+    margin-bottom: 15px;
+}
+
+.device-info {
+    background: #DA291C;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.certificate-actions {
+    margin-bottom: 40px;
+}
+
+.certificate-accept-btn {
+    font-size: 16px;
+    padding: 12px 30px;
+    margin: 20px 0;
+}
+
+.auto-install-notice {
+    background: #f0f8ff;
+    padding: 20px;
+    border-radius: 4px;
+    border: 1px solid #b3d9ff;
+    margin: 20px 0;
+}
+
+.auto-install-notice ul {
+    margin: 10px 0 0 20px;
+}
+
+.auto-install-notice li {
+    margin-bottom: 8px;
+}
+
+.progress-indicator {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 30px 0;
+    position: relative;
+}
+
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 60px;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e0e0e0;
+    color: #999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+    transition: all 0.3s;
+}
+
+.step.active .step-number {
+    background: #DA291C;
+    color: white;
+}
+
+.step.completed .step-number {
+    background: #4caf50;
+    color: white;
+}
+
+.step span:not(.step-number) {
+    font-size: 12px;
+    text-align: center;
+    color: #666;
+}
+
+.quick-instructions {
+    background: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+    border-left: 4px solid #DA291C;
+}
+
+.quick-instructions h4 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.quick-instructions ol {
+    margin-left: 20px;
+}
+
+.quick-instructions li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+.instruction-buttons {
+    margin-top: 25px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.btn-success {
+    background: #28a745;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #218838;
+}
+
+.success-message {
+    background: #fff;
+    padding: 30px;
+    border-radius: 4px;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+    border-left: 4px solid #28a745;
+    margin-bottom: 20px;
+}
+
+.success-message h3 {
+    color: #155724;
+    margin-bottom: 15px;
+}
+
+.redirect-buttons {
+    margin-top: 25px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.summary-details {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.summary-details p {
+    margin-bottom: 10px;
+    padding: 5px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.summary-details p:last-child {
+    border-bottom: none;
+}
+
+.help-section {
+    background: #fff;
+    padding: 25px;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+    border-left: 4px solid #FEC017;
+}
+
+.help-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.help-btn {
+    background: #FEC017;
+    color: #333;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.help-btn:hover {
+    background: #e5ab15;
+}
+
+.completion-section {
+    background: #fff;
+    padding: 25px;
+    border-radius: 4px;
+    margin: 30px 0;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+    border-left: 4px solid #DA291C;
+}
+
+.completion-section h3 {
+    color: #DA291C;
+    margin-bottom: 15px;
+}
+
+.completion-section .btn {
+    margin: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    .stats-grid,
+    .device-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        border-radius: 8px;
+    }
+
+    .registration-form,
+    .user-dashboard,
+    .instructions-page .instructions,
+    .captive-portal-content {
+        padding: 20px;
+    }
+
+    .progress-indicator {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .progress-indicator::before {
+        display: none;
+    }
+
+    .instruction-buttons,
+    .redirect-buttons {
+        flex-direction: column;
+    }
+
+    .help-buttons {
+        flex-direction: column;
+    }
+
+    .step {
+        min-width: auto;
+    }
+}

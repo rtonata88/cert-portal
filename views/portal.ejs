@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Portal</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 Certificate Distribution Portal</h1>
+            <p class="subtitle">Secure certificate deployment for your devices</p>
+        </header>
+
+        <% if (message) { %>
+            <div class="alert alert-<%= message.type %>">
+                <%= message.text %>
+            </div>
+        <% } %>
+
+        <% if (!stats) { %>
+            <section class="registration-form">
+                <h2>Get Started</h2>
+                <p>Register to download and install our CA certificate on your devices</p>
+                <form action="/register" method="POST">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required
+                               placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required
+                               placeholder="John Doe">
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        Register & Get Certificate
+                    </button>
+                </form>
+            </section>
+        <% } else { %>
+            <section class="user-dashboard">
+                <h2>Welcome, <%= stats.name %>!</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Email</h3>
+                        <p><%= stats.email %></p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Devices Configured</h3>
+                        <p class="stat-number"><%= stats.device_count %></p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Downloads</h3>
+                        <p class="stat-number"><%= stats.download_count %></p>
+                    </div>
+                </div>
+
+                <div class="download-section">
+                    <h3>Download Certificate</h3>
+                    <p>Click below to download the certificate for your device:</p>
+                    <div class="download-buttons">
+                        <a href="/download/<%= stats.id %>?device=direct"
+                           class="btn btn-download" download>
+                            📥 Download Certificate
+                        </a>
+                    </div>
+                </div>
+
+                <div class="instructions-section">
+                    <h3>Installation Instructions</h3>
+                    <p>Select your device type for detailed installation instructions:</p>
+                    <div class="device-grid">
+                        <a href="/instructions/windows?userId=<%= stats.id %>"
+                           class="device-card">
+                            <span class="device-icon">💻</span>
+                            <span>Windows</span>
+                        </a>
+                        <a href="/instructions/macos?userId=<%= stats.id %>"
+                           class="device-card">
+                            <span class="device-icon">🍎</span>
+                            <span>macOS</span>
+                        </a>
+                        <a href="/instructions/ios?userId=<%= stats.id %>"
+                           class="device-card">
+                            <span class="device-icon">📱</span>
+                            <span>iOS</span>
+                        </a>
+                        <a href="/instructions/android?userId=<%= stats.id %>"
+                           class="device-card">
+                            <span class="device-icon">🤖</span>
+                            <span>Android</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="register-another">
+                    <a href="/" class="btn btn-secondary">Register Another User</a>
+                </div>
+            </section>
+        <% } %>
+
+        <footer>
+            <p>&copy; 2024 Certificate Portal | Secure Certificate Management</p>
+        </footer>
+    </div>
+</body>
+</html>

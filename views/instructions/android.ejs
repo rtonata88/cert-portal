@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNAM - Android Certificate Installation</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container instructions-page">
+        <header>
+            <h1>🔐 UNAM Android Certificate</h1>
+            <a href="/" class="back-link">← Back to Portal</a>
+        </header>
+
+        <section class="instructions">
+            <div class="alert alert-warning">
+                <strong>Note:</strong> Steps may vary slightly depending on your Android version and device manufacturer.
+            </div>
+
+            <div class="step">
+                <h2>Step 1: Download UNAM Certificate</h2>
+                <p>On your Android device, tap the button below to download the UNAM certificate:</p>
+                <a href="/download-certificate?device=android"
+                   class="btn btn-download">
+                    📥 Download UNAM Certificate
+                </a>
+                <p class="note">The file will be saved to your Downloads folder.</p>
+            </div>
+
+            <div class="step">
+                <h2>Step 2: Open Settings</h2>
+                <ol>
+                    <li>Open the <strong>Settings</strong> app on your device</li>
+                    <li>Scroll down to <strong>Security</strong> or <strong>Security & privacy</strong></li>
+                    <li>Tap to open the Security settings</li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <h2>Step 3: Install Certificate</h2>
+                <h4>For Android 11 and newer:</h4>
+                <ol>
+                    <li>Go to <strong>Security</strong> → <strong>Encryption & credentials</strong></li>
+                    <li>Tap <strong>Install a certificate</strong></li>
+                    <li>Choose <strong>CA certificate</strong></li>
+                    <li>Tap <strong>Install anyway</strong> if you see a warning</li>
+                    <li>Browse and select the downloaded certificate file</li>
+                    <li>Enter a name for the certificate</li>
+                    <li>Tap <strong>OK</strong> to complete installation</li>
+                </ol>
+
+                <h4>For older Android versions:</h4>
+                <ol>
+                    <li>Go to <strong>Security</strong> → <strong>Advanced</strong></li>
+                    <li>Tap <strong>Install from storage</strong> or <strong>Install from SD card</strong></li>
+                    <li>Navigate to Downloads folder</li>
+                    <li>Select the certificate file</li>
+                    <li>Enter a name for the certificate</li>
+                    <li>Select <strong>VPN and apps</strong> or <strong>WiFi</strong> for credential use</li>
+                    <li>Tap <strong>OK</strong></li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <h2>Step 4: Set Screen Lock (if required)</h2>
+                <p>Some Android versions require a screen lock to install certificates:</p>
+                <ol>
+                    <li>If prompted, set up a PIN, password, or pattern lock</li>
+                    <li>Go to <strong>Settings</strong> → <strong>Security</strong> → <strong>Screen lock</strong></li>
+                    <li>Choose and configure your preferred lock method</li>
+                    <li>Return to certificate installation after setting up</li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <h2>Step 5: Verify Installation</h2>
+                <ol>
+                    <li>Go to <strong>Settings</strong> → <strong>Security</strong></li>
+                    <li>Navigate to <strong>Encryption & credentials</strong> or <strong>Trusted credentials</strong></li>
+                    <li>Tap on <strong>User credentials</strong> or <strong>User</strong> tab</li>
+                    <li>You should see your installed certificate in the list</li>
+                    <li>Tap on it to view details</li>
+                </ol>
+            </div>
+
+            <div class="alert alert-info">
+                <h3>Alternative Methods</h3>
+                <h4>Via File Manager:</h4>
+                <ol>
+                    <li>Open your file manager app</li>
+                    <li>Navigate to Downloads folder</li>
+                    <li>Tap on the certificate file</li>
+                    <li>Follow the prompts to install</li>
+                </ol>
+
+                <h4>Via Chrome Browser:</h4>
+                <ol>
+                    <li>Type <code>chrome://settings/security</code> in Chrome address bar</li>
+                    <li>Tap on <strong>Manage certificates</strong></li>
+                    <li>Follow installation prompts</li>
+                </ol>
+            </div>
+
+            <div class="troubleshooting">
+                <h3>Troubleshooting</h3>
+                <ul>
+                    <li><strong>Can't find certificate settings:</strong> Try searching "certificate" in Settings search bar</li>
+                    <li><strong>Installation fails:</strong> Ensure the certificate file isn't corrupted - try downloading again</li>
+                    <li><strong>Certificate not trusted:</strong> Some apps may need to be configured to trust user certificates</li>
+                    <li><strong>Network still shows as insecure:</strong> Clear app cache and restart the app</li>
+                    <li><strong>Samsung devices:</strong> Look under Settings → Biometrics and security → Other security settings</li>
+                    <li><strong>Xiaomi/MIUI:</strong> Settings → Password & security → Privacy → Encryption & credentials</li>
+                </ul>
+            </div>
+
+            <div class="alert alert-warning">
+                <h3>Important Security Note</h3>
+                <p>Installing CA certificates allows the certificate issuer to intercept secure connections. Only install certificates from trusted sources.</p>
+            </div>
+        </section>
+
+        <% if (typeof redirectUrl !== 'undefined' && redirectUrl) { %>
+            <div class="completion-section">
+                <h3>After Installation</h3>
+                <p>Once you've completed the certificate installation, tap below to continue:</p>
+                <a href="<%= redirectUrl %>" class="btn btn-primary">
+                    🌐 Continue to Website
+                </a>
+                <a href="/redirect" class="btn btn-secondary">
+                    🏠 Go to Company Site
+                </a>
+            </div>
+        <% } %>
+
+        <footer>
+            <p>&copy; 2024 UNAM</p>
+        </footer>
+    </div>
+</body>
+</html>

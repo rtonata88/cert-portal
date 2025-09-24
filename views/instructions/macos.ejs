@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNAM - macOS Certificate Installation</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container instructions-page">
+        <header>
+            <h1>🔐 UNAM macOS Certificate</h1>
+            <a href="/" class="back-link">← Back to Portal</a>
+        </header>
+
+        <section class="instructions">
+            <div class="step">
+                <h2>Step 1: Download UNAM Certificate</h2>
+                <p>First, download the UNAM certificate file:</p>
+                <a href="/download-certificate?device=macos"
+                   class="btn btn-download">
+                    📥 Download UNAM Certificate
+                </a>
+            </div>
+
+            <div class="step">
+                <h2>Step 2: Open Keychain Access</h2>
+                <ol>
+                    <li>Open <strong>Finder</strong></li>
+                    <li>Go to <strong>Applications</strong> → <strong>Utilities</strong></li>
+                    <li>Double-click <strong>Keychain Access</strong></li>
+                    <li>Or press <kbd>Cmd</kbd> + <kbd>Space</kbd> and search for "Keychain Access"</li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <h2>Step 3: Import Certificate</h2>
+                <ol>
+                    <li>In Keychain Access, select <strong>System</strong> keychain from the left sidebar</li>
+                    <li>Go to <strong>File</strong> → <strong>Import Items...</strong></li>
+                    <li>Navigate to and select the downloaded certificate file</li>
+                    <li>Click <strong>Open</strong></li>
+                    <li>Enter your macOS password when prompted</li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <h2>Step 4: Trust the Certificate</h2>
+                <ol>
+                    <li>In the System keychain, find your newly imported certificate</li>
+                    <li>Double-click on the certificate</li>
+                    <li>Expand the <strong>Trust</strong> section</li>
+                    <li>Set <strong>When using this certificate</strong> to <strong>Always Trust</strong></li>
+                    <li>Close the window and enter your password to save changes</li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <h2>Step 5: Verify Installation</h2>
+                <ol>
+                    <li>The certificate should now show a blue + icon indicating it's trusted</li>
+                    <li>Restart your browser to apply the changes</li>
+                    <li>Visit any site using this certificate to verify it works</li>
+                </ol>
+            </div>
+
+            <div class="alert alert-info">
+                <h3>Alternative Method: Command Line</h3>
+                <p>You can also install via Terminal:</p>
+                <pre><code>sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ~/Downloads/ca-certificate.crt</code></pre>
+            </div>
+
+            <div class="troubleshooting">
+                <h3>Troubleshooting</h3>
+                <ul>
+                    <li><strong>Certificate Not Showing:</strong> Make sure you selected the System keychain</li>
+                    <li><strong>Trust Settings Not Saving:</strong> Ensure you have administrator privileges</li>
+                    <li><strong>Browser Still Shows Warning:</strong> Clear browser cache and restart</li>
+                    <li><strong>Safari Issues:</strong> Go to Safari → Preferences → Privacy → Manage Website Data and remove relevant sites</li>
+                </ul>
+            </div>
+        </section>
+
+        <% if (typeof redirectUrl !== 'undefined' && redirectUrl) { %>
+            <div class="completion-section">
+                <h3>After Installation</h3>
+                <p>Once you've completed the certificate installation, click below to continue:</p>
+                <a href="<%= redirectUrl %>" class="btn btn-primary">
+                    🌐 Continue to Website
+                </a>
+                <a href="/redirect" class="btn btn-secondary">
+                    🏠 Go to Company Site
+                </a>
+            </div>
+        <% } %>
+
+        <footer>
+            <p>&copy; 2024 UNAM</p>
+        </footer>
+    </div>
+</body>
+</html>
