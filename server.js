@@ -6,6 +6,7 @@ const multer = require('multer');
 const crypto = require('crypto');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const { generateMobileConfig, generateWindowsInstaller, generateAndroidInstructions } = require('./lib/mobileconfig');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -170,6 +171,135 @@ app.get('/download-certificate', (req, res) => {
     res.download(certPath, 'Fortinet_CA_SSL.cer');
   } else {
     res.status(404).send('Certificate not found');
+  }
+});
+
+// Seamless iOS/macOS installation via mobile configuration profile
+app.get('/install-ios', (req, res) => {
+  const userId = req.session.userId;
+  const clientIp = req.ip || req.connection.remoteAddress;
+
+  if (!userId) {
+    return res.status(403).send('Access denied. Please accept the certificate first.');
+  }
+
+  try {
+    const certPath = path.join(__dirname, 'certificates', 'Fortinet_CA_SSL.cer');
+    if (!fs.existsSync(certPath)) {
+      return res.status(404).send('Certificate not found');
+    }
+
+    // Generate mobile configuration profile
+    const mobileConfig = generateMobileConfig(certPath, {
+      displayName: 'UNAM Network Certificate',
+      description: 'Required security certificate for University of Namibia network access',
+      organization: 'University of Namibia',
+      identifier: 'na.edu.unam.fortinet-ca'
+    });
+
+    // Log the installation attempt
+    db.run('INSERT INTO certificate_actions (user_id, action, device_type, ip_address) VALUES (?, ?, ?, ?)',
+      [userId, 'ios_profile_downloaded', 'ios', clientIp]);
+
+    // Send as downloadable .mobileconfig file
+    res.setHeader('Content-Type', 'application/x-apple-aspen-config');
+    res.setHeader('Content-Disposition', 'attachment; filename="UNAM-Certificate.mobileconfig"');
+    res.send(mobileConfig);
+
+  } catch (error) {
+    console.error('Error generating mobile config:', error);
+    res.status(500).send('Error generating installation profile');
+  }
+});
+
+// Seamless Windows installation via PowerShell script
+app.get('/install-windows', (req, res) => {
+  const userId = req.session.userId;
+  const clientIp = req.ip || req.connection.remoteAddress;
+
+  if (!userId) {
+    return res.status(403).send('Access denied. Please accept the certificate first.');
+  }
+
+  try {
+    const certPath = path.join(__dirname, 'certificates', 'Fortinet_CA_SSL.cer');
+    if (!fs.existsSync(certPath)) {
+      return res.status(404).send('Certificate not found');
+    }
+
+    // Generate PowerShell installer script
+    const powershellScript = generateWindowsInstaller(certPath, {
+      storeName: 'Root',
+      storeLocation: 'LocalMachine'
+    });
+
+    // Log the installation attempt
+    db.run('INSERT INTO certificate_actions (user_id, action, device_type, ip_address) VALUES (?, ?, ?, ?)',
+      [userId, 'windows_script_downloaded', 'windows', clientIp]);
+
+    // Send as downloadable PowerShell script
+    res.setHeader('Content-Type', 'application/octet-stream');
+    res.setHeader('Content-Disposition', 'attachment; filename="Install-UNAM-Certificate.ps1"');
+    res.send(powershellScript);
+
+  } catch (error) {
+    console.error('Error generating Windows installer:', error);
+    res.status(500).send('Error generating installation script');
+  }
+});
+
+// Enhanced Android installation with auto-download
+app.get('/install-android', (req, res) => {
+  const userId = req.session.userId;
+  const clientIp = req.ip || req.connection.remoteAddress;
+
+  if (!userId) {
+    return res.status(403).send('Access denied. Please accept the certificate first.');
+  }
+
+  // Generate Android-specific instructions and URLs
+  const certificateUrl = `${req.protocol}://${req.get('Host')}/download-certificate?device=android`;
+  const androidInstructions = generateAndroidInstructions(certificateUrl);
+
+  // Log the installation attempt
+  db.run('INSERT INTO certificate_actions (user_id, action, device_type, ip_address) VALUES (?, ?, ?, ?)',
+    [userId, 'android_install_started', 'android', clientIp]);
+
+  res.render('android-seamless', {
+    userId,
+    instructions: androidInstructions,
+    certificateUrl,
+    companyWebsite: COMPANY_WEBSITE
+  });
+});
+
+// Auto-install endpoint - detects device and uses best method
+app.get('/auto-install', (req, res) => {
+  const userId = req.session.userId;
+  const userAgent = req.get('User-Agent') || '';
+  const deviceType = detectDeviceType(userAgent);
+
+  if (!userId) {
+    return res.status(403).send('Access denied. Please accept the certificate first.');
+  }
+
+  // Redirect to appropriate seamless installation method
+  switch (deviceType) {
+    case 'ios':
+      res.redirect('/install-ios');
+      break;
+    case 'macos':
+      res.redirect('/install-ios'); // iOS profile works for macOS too
+      break;
+    case 'android':
+      res.redirect('/install-android');
+      break;
+    case 'windows':
+      res.redirect('/install-windows');
+      break;
+    default:
+      // Fall back to regular download for unknown devices
+      res.redirect('/download-certificate?device=' + deviceType);
   }
 });
 

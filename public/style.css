@@ -649,3 +649,74 @@ footer {
         min-width: auto;
     }
 }
+/* Seamless Installation Styles */
+.seamless-install-progress {
+    text-align: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 15px 0;
+}
+
+.progress-spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 15px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.seamless-btn {
+    font-size: 18px;
+    padding: 15px 25px;
+    width: 100%;
+    margin: 10px 0;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.seamless-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,123,255,0.3);
+}
+
+.seamless-buttons {
+    text-align: center;
+    padding: 20px;
+}
+
+.install-note {
+    color: #6c757d;
+    font-size: 14px;
+    margin: 10px 0;
+    line-height: 1.4;
+}
+
+#manual-fallback {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 5px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+#manual-fallback h4 {
+    color: #856404;
+    margin-top: 0;
+}
+
+#device-name {
+    font-weight: bold;
+    text-transform: capitalize;
+}

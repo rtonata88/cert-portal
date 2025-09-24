@@ -58,14 +58,32 @@
                     </div>
 
                     <div id="download-section" style="display: none;">
-                        <h3>Step 2: Download the certificate</h3>
-                        <p>Download the security certificate file to your device:</p>
-                        <a href="/download-certificate?device=<%= deviceType %>"
-                           class="btn btn-download"
-                           onclick="markDownloaded()"
-                           download>
-                            📥 Download security certificate
-                        </a>
+                        <h3>Step 2: Install Certificate</h3>
+                        <div id="seamless-install-section">
+                            <p>Installing security certificate on your <span id="device-name"><%= deviceType %></span> device...</p>
+
+                            <div class="seamless-install-progress">
+                                <div class="progress-spinner"></div>
+                                <p id="install-status">Preparing installation...</p>
+                            </div>
+
+                            <div class="seamless-buttons" id="install-buttons" style="display: none;">
+                                <!-- Dynamic buttons will be inserted here based on device -->
+                            </div>
+                        </div>
+
+                        <!-- Fallback manual download -->
+                        <div id="manual-fallback" style="display: none;">
+                            <hr>
+                            <h4>Manual Download (Fallback)</h4>
+                            <p>If automatic installation doesn't work:</p>
+                            <a href="/download-certificate?device=<%= deviceType %>"
+                               class="btn btn-secondary"
+                               onclick="markDownloaded()"
+                               download>
+                                📥 Download certificate file
+                            </a>
+                        </div>
                     </div>
 
                     <div id="instructions-section" style="display: none;">
@@ -223,6 +241,118 @@
             }, 30000); // Show manual option after 30 seconds
         };
 
+        function startSeamlessInstallation() {
+            const deviceType = '<%= deviceType %>';
+            const statusElement = document.getElementById('install-status');
+            const buttonsElement = document.getElementById('install-buttons');
+
+            setTimeout(() => {
+                statusElement.textContent = 'Preparing seamless installation...';
+
+                setTimeout(() => {
+                    generateInstallButtons(deviceType);
+                    buttonsElement.style.display = 'block';
+
+                    // Hide spinner and update status
+                    document.querySelector('.progress-spinner').style.display = 'none';
+
+                    switch(deviceType) {
+                        case 'ios':
+                            statusElement.innerHTML = '📱 <strong>iOS Detected:</strong> Tap the button below to install the certificate profile.';
+                            break;
+                        case 'macos':
+                            statusElement.innerHTML = '💻 <strong>macOS Detected:</strong> Click to download the configuration profile.';
+                            break;
+                        case 'android':
+                            statusElement.innerHTML = '🤖 <strong>Android Detected:</strong> Tap for automatic certificate installation.';
+                            break;
+                        case 'windows':
+                            statusElement.innerHTML = '🪟 <strong>Windows Detected:</strong> Download the PowerShell installer script.';
+                            break;
+                        default:
+                            statusElement.innerHTML = '🔧 <strong>Auto-installation ready:</strong> Choose your installation method.';
+                    }
+
+                    // Show fallback option after some time
+                    setTimeout(() => {
+                        document.getElementById('manual-fallback').style.display = 'block';
+                    }, 15000);
+
+                }, 2000);
+            }, 1000);
+        }
+
+        function generateInstallButtons(deviceType) {
+            const buttonsContainer = document.getElementById('install-buttons');
+            let buttonHTML = '';
+
+            switch(deviceType) {
+                case 'ios':
+                case 'macos':
+                    buttonHTML = `
+                        <button onclick="seamlessInstall('ios')" class="btn btn-primary seamless-btn">
+                            📱 Install Certificate Profile
+                        </button>
+                        <p class="install-note">This will open a configuration profile that automatically installs the certificate.</p>
+                    `;
+                    break;
+
+                case 'android':
+                    buttonHTML = `
+                        <button onclick="seamlessInstall('android')" class="btn btn-primary seamless-btn">
+                            🤖 Auto-Install Certificate
+                        </button>
+                        <p class="install-note">This will start automatic certificate download and guide you through installation.</p>
+                    `;
+                    break;
+
+                case 'windows':
+                    buttonHTML = `
+                        <button onclick="seamlessInstall('windows')" class="btn btn-primary seamless-btn">
+                            🪟 Download Auto-Installer
+                        </button>
+                        <p class="install-note">This downloads a PowerShell script that automatically installs the certificate.</p>
+                    `;
+                    break;
+
+                default:
+                    buttonHTML = `
+                        <button onclick="seamlessInstall('auto')" class="btn btn-primary seamless-btn">
+                            🔧 Smart Install
+                        </button>
+                        <p class="install-note">Automatically detects your device and uses the best installation method.</p>
+                    `;
+            }
+
+            buttonsContainer.innerHTML = buttonHTML;
+        }
+
+        function seamlessInstall(type) {
+            let installUrl;
+
+            switch(type) {
+                case 'ios':
+                    installUrl = '/install-ios';
+                    break;
+                case 'android':
+                    installUrl = '/install-android';
+                    break;
+                case 'windows':
+                    installUrl = '/install-windows';
+                    break;
+                case 'auto':
+                default:
+                    installUrl = '/auto-install';
+                    break;
+            }
+
+            // Update UI to show installation is starting
+            document.getElementById('install-status').innerHTML = '<strong>🚀 Starting installation...</strong>';
+
+            // Navigate to seamless installation
+            window.location.href = installUrl;
+        }
+
         async function acceptCertificate() {
             try {
                 console.log('Sending certificate acceptance request...');
@@ -256,6 +386,9 @@
                         manualBtn.style.display = 'none';
                     }
                     document.getElementById('installation-steps').style.display = 'block';
+
+                    // Start seamless installation process
+                    startSeamlessInstallation();
                     nextStep();
                 } else {
                     console.error('Certificate acceptance failed:', result);
