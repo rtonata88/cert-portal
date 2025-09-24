@@ -5,7 +5,14 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "pm2:start": "npx pm2 start ecosystem.config.js",
+    "pm2:stop": "npx pm2 stop cert-portal",
+    "pm2:restart": "npx pm2 restart cert-portal",
+    "pm2:reload": "npx pm2 reload cert-portal",
+    "pm2:logs": "npx pm2 logs cert-portal",
+    "pm2:status": "npx pm2 status",
+    "pm2:delete": "npx pm2 delete cert-portal"
   },
   "dependencies": {
     "cookie-parser": "^1.4.6",
